@@ -1,0 +1,35 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: BLOG-SERVICE
+  datasource:
+    url: jdbc:h2:mem:userdb
+    driver-class-name: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
+  kafka:
+    producer:
+      bootstrap-servers:
+        - localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: default-group-1
+      auto-offset-reset: earliest
+
+jwt:
+  secret: mySecretJwtKey
+  expiration: 3600000
+
+
+eureka:
+  instance:
+    appname: BLOG-SERVICE
+  client:
+    service-url:
+      defaultZone : http://localhost:8761/eureka/
