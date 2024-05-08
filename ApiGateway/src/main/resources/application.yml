@@ -1,0 +1,35 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: USER-SERVICE
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/api/auth/**,/api/user/**,/api/subscription/**
+          filters:
+            - AuthFilter
+        - id: BLOG-SERVICE
+          uri: lb://BLOG-SERVICE
+          predicates:
+            - Path=/api/blogs/**
+          filters:
+            - AuthFilter
+        - id: NOTIFICATION-SERVICE
+          uri: lb://NOTIFICATION-SERVICE
+          predicates:
+            - Path=/api/notification/**
+          filters:
+            - AuthFilter
+eureka:
+  client:
+    service-url:
+      defaultZone : http://localhost:8761/eureka/
+
+jwt:
+  secret: mySecretJwtKey
+  expiration: 3600000
